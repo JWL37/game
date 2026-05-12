@@ -193,7 +193,7 @@ public sealed class CargoPlacementItem : MonoBehaviour
     private void MarkDamaged(string reason)
     {
         isDamaged = true;
-        Debug.LogWarning(packageLabel + " damaged: " + reason + ".", this);
+        Debug.LogWarning(packageLabel + " поврежден: " + reason + ".", this);
         Damaged?.Invoke(this);
     }
 }

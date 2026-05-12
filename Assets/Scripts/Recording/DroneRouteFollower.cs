@@ -113,13 +113,13 @@ public sealed class DroneRouteFollower : MonoBehaviour
         IReadOnlyList<RecordedRouteFrame> route = GetRoute();
         if (routeSource != null && routeSource.IsRecording)
         {
-            Debug.Log("Stop route recording before starting drone playback.");
+            Debug.Log("Остановите запись маршрута перед запуском дрона.");
             return;
         }
 
         if (route == null || route.Count == 0)
         {
-            Debug.Log("Drone playback needs a recorded route first.");
+            Debug.Log("Для запуска дрона сначала нужен записанный маршрут.");
             return;
         }
 
@@ -127,8 +127,8 @@ public sealed class DroneRouteFollower : MonoBehaviour
         GetAttachedCargo(launchCargo);
         if (launchCargo.Count == 0)
         {
-            Debug.Log("Attach at least one package before starting drone playback.");
-            FindAnyObjectByType<LevelResultManager>()?.ReportLaunchBlocked("Attach at least one package before launch.");
+            Debug.Log("Закрепите хотя бы одну посылку перед запуском дрона.");
+            FindAnyObjectByType<LevelResultManager>()?.ReportLaunchBlocked("Закрепите хотя бы одну посылку перед запуском.");
             return;
         }
 
@@ -139,14 +139,14 @@ public sealed class DroneRouteFollower : MonoBehaviour
         IsPlaying = true;
         SnapToRouteStart(route[0]);
         PlaybackStarted?.Invoke();
-        Debug.Log($"Drone playback started. Frames: {route.Count}");
+        Debug.Log($"Запуск дрона начат. Кадров: {route.Count}");
     }
 
     public void StopPlayback()
     {
         if (IsPlaying)
         {
-            Debug.Log("Drone playback stopped.");
+            Debug.Log("Запуск дрона остановлен.");
         }
 
         IsPlaying = false;
@@ -162,7 +162,7 @@ public sealed class DroneRouteFollower : MonoBehaviour
 
         FindAnyObjectByType<LevelResultManager>()?.RestartAttempt();
         TeleportBodyWithAttachedCargo(resetPosition, resetRotation);
-        Debug.Log("Drone reset to start position.");
+        Debug.Log("Дрон возвращен на стартовую позицию.");
     }
 
     private IReadOnlyList<RecordedRouteFrame> GetRoute()
@@ -471,7 +471,7 @@ public sealed class DroneRouteFollower : MonoBehaviour
 
         float routeError = Vector3.Distance(body.position, CurrentTargetPosition);
         GUI.color = routeError > routeErrorWarningDistance ? Color.red : Color.white;
-        GUI.Label(new Rect(16f, 44f, 420f, 26f), "Route error: " + routeError.ToString("0.00") + " m | correction force limit " + GetEffectiveMaxCorrectionForce().ToString("0"));
+        GUI.Label(new Rect(16f, 44f, 420f, 26f), "Ошибка маршрута: " + routeError.ToString("0.00") + " м | лимит коррекции " + GetEffectiveMaxCorrectionForce().ToString("0"));
         GUI.color = Color.white;
     }
 

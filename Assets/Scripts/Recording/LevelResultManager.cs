@@ -18,7 +18,7 @@ public sealed class LevelResultManager : MonoBehaviour
 
     private readonly List<CargoPlacementItem> requiredCargo = new List<CargoPlacementItem>();
     private LevelResultState state = LevelResultState.Build;
-    private string resultMessage = "Place cargo, record route, then press P.";
+    private string resultMessage = "Разместите груз, запишите маршрут и нажмите P.";
 
     public LevelResultState State => state;
     public string ResultMessage => resultMessage;
@@ -85,25 +85,25 @@ public sealed class LevelResultManager : MonoBehaviour
             CargoPlacementItem cargo = requiredCargo[i];
             if (cargo == null)
             {
-                Fail("Cargo missing.");
+                Fail("Груз отсутствует.");
                 return;
             }
 
             if (cargo.IsDamaged)
             {
-                Fail("Cargo damaged.");
+                Fail("Груз поврежден.");
                 return;
             }
 
             if (!cargo.IsAttached)
             {
-                Fail("Cargo detached from the drone.");
+                Fail("Груз оторвался от дрона.");
                 return;
             }
 
             if (cargo.Position.y < cargoFallY)
             {
-                Fail("Cargo fell from the delivery route.");
+                Fail("Груз упал с маршрута.");
                 return;
             }
         }
@@ -112,7 +112,7 @@ public sealed class LevelResultManager : MonoBehaviour
     public void RestartAttempt()
     {
         state = LevelResultState.Build;
-        resultMessage = "Attempt reset. Adjust cargo or record a new route.";
+        resultMessage = "Попытка сброшена. Переставьте груз или запишите новый маршрут.";
         UnsubscribeCargoDamage();
         requiredCargo.Clear();
 
@@ -143,12 +143,12 @@ public sealed class LevelResultManager : MonoBehaviour
 
         if (requiredCargo.Count == 0)
         {
-            Fail("Attach at least one package before launch.");
+            Fail("Закрепите хотя бы одну посылку перед запуском.");
             return;
         }
 
         state = LevelResultState.Playback;
-        resultMessage = "Delivery in progress.";
+        resultMessage = "Доставка выполняется.";
     }
 
     private void HandlePlaybackStopped()
@@ -165,7 +165,7 @@ public sealed class LevelResultManager : MonoBehaviour
     {
         if (deliveryZone == null)
         {
-            Fail("Delivery zone is missing.");
+            Fail("Зона доставки отсутствует.");
             return;
         }
 
@@ -174,32 +174,32 @@ public sealed class LevelResultManager : MonoBehaviour
             CargoPlacementItem cargo = requiredCargo[i];
             if (cargo == null)
             {
-                Fail("Cargo missing.");
+                Fail("Груз отсутствует.");
                 return;
             }
 
             if (cargo.IsDamaged)
             {
-                Fail("Cargo damaged.");
+                Fail("Груз поврежден.");
                 return;
             }
 
             if (!cargo.IsAttached)
             {
-                Fail("Cargo detached from the drone.");
+                Fail("Груз оторвался от дрона.");
                 return;
             }
 
             if (!deliveryZone.Contains(cargo.Position))
             {
-                Fail("Cargo is not inside the delivery zone.");
+                Fail("Груз не находится в зоне доставки.");
                 return;
             }
         }
 
         state = LevelResultState.Success;
-        resultMessage = "Delivery complete. Cargo intact.";
-        Debug.Log("Delivery success.");
+        resultMessage = "Доставка завершена. Груз цел.";
+        Debug.Log("Доставка успешна.");
         UnsubscribeCargoDamage();
     }
 
@@ -211,7 +211,7 @@ public sealed class LevelResultManager : MonoBehaviour
         }
 
         state = LevelResultState.Failure;
-        resultMessage = "Delivery failed: " + reason;
+        resultMessage = "Доставка провалена: " + reason;
         Debug.LogWarning(resultMessage, this);
         if (drone != null)
         {
@@ -242,7 +242,7 @@ public sealed class LevelResultManager : MonoBehaviour
 
     private void HandleCargoDamaged(CargoPlacementItem cargo)
     {
-        Fail("Cargo damaged.");
+        Fail("Груз поврежден.");
     }
 
     private void OnGUI()
@@ -256,7 +256,7 @@ public sealed class LevelResultManager : MonoBehaviour
             ? Color.green
             : state == LevelResultState.Failure ? Color.red : Color.white;
 
-        GUI.Label(new Rect(16f, 72f, 520f, 26f), "Result: " + resultMessage);
+        GUI.Label(new Rect(16f, 72f, 520f, 26f), "Результат: " + resultMessage);
         GUI.color = Color.white;
     }
 }

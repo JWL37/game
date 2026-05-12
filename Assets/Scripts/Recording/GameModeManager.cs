@@ -89,7 +89,7 @@ public sealed class GameModeManager : MonoBehaviour
         EnsureStyles();
 
         GUILayout.BeginArea(new Rect(14f, 14f, 340f, 260f), panelStyle);
-        GUILayout.Label("Mode: " + GetModeLabel(CurrentMode), titleStyle);
+        GUILayout.Label("Режим: " + GetModeLabel(CurrentMode), titleStyle);
         GUILayout.Space(8f);
 
         DrawControls();
@@ -108,7 +108,7 @@ public sealed class GameModeManager : MonoBehaviour
 
         bool canRecord = CurrentMode == GameMode.BuildMode || CurrentMode == GameMode.RecordMode;
         GUI.enabled = canRecord && recorder != null;
-        string recordLabel = recorder != null && recorder.IsRecording ? "Stop Recording" : "Record";
+        string recordLabel = recorder != null && recorder.IsRecording ? "Стоп" : "Запись";
         if (GUILayout.Button(recordLabel, GUILayout.Height(32f)))
         {
             recorder.ToggleRecording();
@@ -117,13 +117,13 @@ public sealed class GameModeManager : MonoBehaviour
         bool hasRoute = recorder != null && recorder.FrameCount > 0;
         bool hasCargo = GetAttachedCargoCount() > 0;
         GUI.enabled = CurrentMode == GameMode.BuildMode && drone != null && hasRoute && hasCargo;
-        if (GUILayout.Button("Launch Drone", GUILayout.Height(32f)))
+        if (GUILayout.Button("Запуск", GUILayout.Height(32f)))
         {
             drone.StartPlayback();
         }
 
         GUI.enabled = drone != null;
-        if (GUILayout.Button("Reset", GUILayout.Height(32f)))
+        if (GUILayout.Button("Сброс", GUILayout.Height(32f)))
         {
             drone.ResetDrone();
         }
@@ -136,12 +136,12 @@ public sealed class GameModeManager : MonoBehaviour
     {
         if (centerOfMass == null)
         {
-            GUILayout.Label("Balance: unavailable", smallStyle);
+            GUILayout.Label("Баланс: недоступен", smallStyle);
             return;
         }
 
-        string balanceState = centerOfMass.IsBalanceWarning ? "WARNING" : "OK";
-        GUILayout.Label("Balance: " + balanceState + " | offset " + centerOfMass.BalanceOffset.ToString("0.00") + " m", smallStyle);
+        string balanceState = centerOfMass.IsBalanceWarning ? "ОПАСНО" : "НОРМА";
+        GUILayout.Label("Баланс: " + balanceState + " | смещение " + centerOfMass.BalanceOffset.ToString("0.00") + " м", smallStyle);
     }
 
     private void DrawCargoStatus()
@@ -161,8 +161,8 @@ public sealed class GameModeManager : MonoBehaviour
             }
         }
 
-        string cargoState = damaged > 0 ? "damaged " + damaged : "intact";
-        GUILayout.Label("Cargo: " + attachedCargo.Count + " attached | " + cargoState, smallStyle);
+        string cargoState = damaged > 0 ? "повреждено: " + damaged : "целый";
+        GUILayout.Label("Груз: закреплено " + attachedCargo.Count + " | " + cargoState, smallStyle);
     }
 
     private int GetAttachedCargoCount()
@@ -180,12 +180,12 @@ public sealed class GameModeManager : MonoBehaviour
     {
         if (recorder == null)
         {
-            GUILayout.Label("Route time: 0.0 s", smallStyle);
+            GUILayout.Label("Время маршрута: 0.0 с", smallStyle);
             return;
         }
 
         float time = drone != null && drone.IsPlaying ? drone.PlaybackTime : recorder.RouteDuration;
-        GUILayout.Label("Route time: " + time.ToString("0.0") + " s | frames " + recorder.FrameCount, smallStyle);
+        GUILayout.Label("Время маршрута: " + time.ToString("0.0") + " с | кадров " + recorder.FrameCount, smallStyle);
     }
 
     private void DrawResult()
@@ -196,7 +196,7 @@ public sealed class GameModeManager : MonoBehaviour
         }
 
         GUILayout.Space(6f);
-        GUILayout.Label("Result: " + resultManager.ResultMessage, smallStyle);
+        GUILayout.Label("Результат: " + resultManager.ResultMessage, smallStyle);
     }
 
     private void EnsureStyles()
@@ -229,13 +229,13 @@ public sealed class GameModeManager : MonoBehaviour
         switch (mode)
         {
             case GameMode.RecordMode:
-                return "RecordMode";
+                return "Запись";
             case GameMode.PlaybackMode:
-                return "PlaybackMode";
+                return "Запуск";
             case GameMode.ResultMode:
-                return "ResultMode";
+                return "Итог";
             default:
-                return "BuildMode";
+                return "Расстановка";
         }
     }
 }

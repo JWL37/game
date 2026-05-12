@@ -194,9 +194,9 @@ public sealed class CenterOfMassCalculator : MonoBehaviour
             return;
         }
 
-        string state = IsBalanceWarning ? "WARNING" : "OK";
+        string state = IsBalanceWarning ? "ОПАСНО" : "НОРМА";
         GUI.color = IsBalanceWarning ? centerOfMassWarningColor : centerOfMassSafeColor;
-        GUI.Label(new Rect(16f, 16f, 360f, 26f), "Balance: " + state + " | offset " + BalanceOffset.ToString("0.00") + " m");
+        GUI.Label(new Rect(16f, 16f, 360f, 26f), "Баланс: " + state + " | смещение " + BalanceOffset.ToString("0.00") + " м");
         GUI.color = Color.white;
     }
 

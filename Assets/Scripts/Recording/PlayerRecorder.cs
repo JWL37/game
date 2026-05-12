@@ -89,13 +89,13 @@ public sealed class PlayerRecorder : MonoBehaviour
         routeFrames.Clear();
         recordingTime = 0f;
         IsRecording = true;
-        Debug.Log("Route recording started.");
+        Debug.Log("Запись маршрута начата.");
     }
 
     public void StopRecording()
     {
         IsRecording = false;
-        Debug.Log($"Route recording stopped. Frames: {routeFrames.Count}");
+        Debug.Log($"Запись маршрута остановлена. Кадров: {routeFrames.Count}");
     }
 
     public void ToggleRecording()
@@ -113,7 +113,7 @@ public sealed class PlayerRecorder : MonoBehaviour
     {
         routeFrames.Clear();
         recordingTime = 0f;
-        Debug.Log("Recorded route cleared.");
+        Debug.Log("Записанный маршрут очищен.");
     }
 
     public void ResetPlanner()
